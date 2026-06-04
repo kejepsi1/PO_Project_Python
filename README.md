@@ -1,1 +1,1 @@
-# PO_Project_Python
+This project is a virtual game where you have different plants and animals on a rectangular grid, they each have their own specific actions, they can breed and multiply. The purpose of the project is to enhance skills in OOP in Python.
