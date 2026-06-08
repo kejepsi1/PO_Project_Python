@@ -48,7 +48,7 @@ class Organizm:
     def czy_odpycha(self, napastnik):
         return False
 
-    def akcja(self):
+    def akcja(self, klawisz):
         if self.wiek == 0:
             return
         self._stare_polozenie_x = self._polozenie_x
