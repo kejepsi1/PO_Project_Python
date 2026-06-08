@@ -30,5 +30,3 @@ class Zwierze(Organizm):
             if dziecko is not None:
                 self._swiat.dodaj_organizm(dziecko)
                 dziecko._wiek = 0
-
-            
