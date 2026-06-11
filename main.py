@@ -13,6 +13,7 @@ from Mlecz import Mlecz
 from Guarana import Guarana
 from WilczeJagody import WilczeJagody
 from BarszczSosnowskiego import BarszczSosnowskiego
+from Przycisk import Przycisk
 
 ROZMIAR_POLA = 30
 SZEROKOSC_SIATKI = 20
@@ -22,30 +23,6 @@ SZEROKOSC_UI = 350
 KOLOR_TLA_PLANSZY = (200, 200, 200)
 KOLOR_TLA_UI = (50, 50, 50)
 KOLOR_TEKSTU_UI = (255, 255, 255)
-
-
-class Przycisk:
-    def __init__(self, x, y, szerokosc, wysokosc, tekst, kolor_podstawowy, kolor_hover):
-        self.prostokat = pygame.Rect(x, y, szerokosc, wysokosc)
-        self.tekst = tekst
-        self.kolor_podstawowy = kolor_podstawowy
-        self.kolor_hover = kolor_hover
-        self.czcionka = pygame.font.SysFont('arial', 20, bold=True)
-
-    def rysuj(self, okno, pozycja_myszy):
-        if self.prostokat.collidepoint(pozycja_myszy):
-            pygame.draw.rect(okno, self.kolor_hover, self.prostokat)
-        else:
-            pygame.draw.rect(okno, self.kolor_podstawowy, self.prostokat)
-        pygame.draw.rect(okno, (0, 0, 0), self.prostokat, 2)
-
-        tekst_obraz = self.czcionka.render(self.tekst, True, (0, 0, 0))
-        tekst_pozycja = tekst_obraz.get_rect(center=self.prostokat.center)
-        okno.blit(tekst_obraz, tekst_pozycja)
-
-    def sprawdz_klikniecie(self, pozycja_myszy):
-        return self.prostokat.collidepoint(pozycja_myszy)
-
 
 def rysuj_interfejs(okno, swiat, przyciski, czcionka_ui):
     panel_ui = pygame.Rect(SZEROKOSC_SIATKI * ROZMIAR_POLA, 0, SZEROKOSC_UI, WYSOKOSC_SIATKI * ROZMIAR_POLA)
@@ -77,7 +54,7 @@ def main():
     szerokosc_okna = SZEROKOSC_SIATKI * ROZMIAR_POLA + SZEROKOSC_UI
     wysokosc_okna = WYSOKOSC_SIATKI * ROZMIAR_POLA
     okno = pygame.display.set_mode((szerokosc_okna, wysokosc_okna))
-    pygame.display.set_caption("Wirtualny Świat - Symulacja")
+    pygame.display.set_caption("Wirtualny Świat")
 
     czcionka_ui = pygame.font.SysFont('arial', 20, bold=True)
     czcionka_menu = pygame.font.SysFont('arial', 14)
@@ -138,10 +115,7 @@ def main():
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-
-
                     if menu_aktywne:
-
                         for rect, Klasa, nazwa in menu_rects:
                             if rect.collidepoint(pozycja_myszy):
                                 nowy_organizm = Klasa(wybrane_pole_x, wybrane_pole_y, swiat)
@@ -150,7 +124,6 @@ def main():
                                 break
 
                         menu_aktywne = False
-
                     else:
                         if przycisk_tura.sprawdz_klikniecie(pozycja_myszy):
                             swiat.wykonaj_ture()
@@ -163,9 +136,7 @@ def main():
                             x_kliku = pozycja_myszy[0] // ROZMIAR_POLA
                             y_kliku = pozycja_myszy[1] // ROZMIAR_POLA
 
-                            zajete = any(
-                                org.polozenie_x == x_kliku and org.polozenie_y == y_kliku and org.czy_zyje() for org in
-                                swiat.organizmy)
+                            zajete = any(org.polozenie_x == x_kliku and org.polozenie_y == y_kliku and org.czy_zyje() for org in swiat.organizmy)
 
                             if not zajete:
                                 menu_aktywne = True
