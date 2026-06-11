@@ -83,7 +83,7 @@ class Organizm:
             self._polozenie_y = noweY
 
     def kolizja(self):
-        self._swiat.SprawdzajKolizje(self)
+        self._swiat.sprawdzaj_kolizje(self)
 
     def cofnij(self):
         self._polozenie_x = self._stare_polozenie_x
