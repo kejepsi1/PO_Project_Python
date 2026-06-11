@@ -1,4 +1,5 @@
 import random
+
 from Roslina import Roslina
 from Zwierze import Zwierze
 
@@ -23,7 +24,7 @@ class BarszczSosnowskiego(Roslina):
 
             for sasiad in self._swiat.organizmy:
                 if sasiad.polozenie_x == potencjalne_x and sasiad.polozenie_y == potencjalne_y:
-                    if sasiad.czy_zyje() and isinstance(sasiad, Zwierze):
+                    if sasiad.czy_zyje() and isinstance(sasiad, Zwierze) and sasiad.znak != 'Y':
                         if not sasiad.uniknij_smierci(self):
                             tekst = f"Barszcz Sosnowskiego zabija: {sasiad.znak}"
                             self._swiat.dodaj_komunikat(tekst)
@@ -55,6 +56,9 @@ class BarszczSosnowskiego(Roslina):
         return True
 
     def czy_obronil(self, napastnik):
+        if napastnik.znak == 'Y':
+            self.zabij()
+            return False
         self._swiat.dodaj_komunikat("Zwierze zjadlo Barszcz Sosnowskiego i zginelo")
         self.zabij()
         return True

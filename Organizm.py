@@ -3,8 +3,8 @@ import random
 class Organizm:
     def __init__(self, sila, inicjatywa, polozenie_x, polozenie_y, swiat, znak):
         self._czy_zyje = True
-        self._stare_polozenie_y = polozenie_x
-        self._stare_polozenie_x = polozenie_y
+        self._stare_polozenie_y = polozenie_y
+        self._stare_polozenie_x = polozenie_x
         self._sila = sila
         self._inicjatywa = inicjatywa
         self._polozenie_x = polozenie_x
@@ -52,7 +52,7 @@ class Organizm:
         if self.wiek == 0:
             return
         self._stare_polozenie_x = self._polozenie_x
-        self._stare_Polozenie_y = self._polozenie_y
+        self._stare_polozenie_y = self._polozenie_y
 
         noweX = self._polozenie_x
         noweY = self._polozenie_y
@@ -78,7 +78,7 @@ class Organizm:
             noweX += 1
             noweY += 1
 
-        if 0 <= noweX <= self._swiat.x and 0 <= noweY <= self._swiat.y:
+        if 0 <= noweX < self._swiat.x and 0 <= noweY < self._swiat.y:
             self._polozenie_x = noweX
             self._polozenie_y = noweY
 

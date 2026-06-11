@@ -3,6 +3,7 @@ import pygame
 import json
 import os
 
+from CyberOwca import CyberOwca
 from Czlowiek import Czlowiek
 from Wilk import Wilk
 from Owca import Owca
@@ -35,6 +36,7 @@ class Swiat:
             self.dodaj_bezpiecznie_organizm(Guarana(0, 0, self))
             self.dodaj_bezpiecznie_organizm(WilczeJagody(0, 0, self))
             self.dodaj_bezpiecznie_organizm(BarszczSosnowskiego(0, 0, self))
+            self.dodaj_bezpiecznie_organizm(CyberOwca(0,0,self))
 
     @property
     def x(self):
@@ -120,51 +122,43 @@ class Swiat:
         self.dodaj_wiek()
 
     def rysuj(self, okno, rozmiar_pola):
-        # 1. Rysowanie siatki (opcjonalne, ale bardzo poprawia czytelność planszy)
         for x in range(self._x):
             for y in range(self._y):
                 prostokat = pygame.Rect(x * rozmiar_pola, y * rozmiar_pola, rozmiar_pola, rozmiar_pola)
-                # Rysujemy samą ramkę (ostatni argument '1' to grubość linii)
                 pygame.draw.rect(okno, (150, 150, 150), prostokat, 1)
 
-        czcionka = pygame.font.SysFont('arial', int(rozmiar_pola * 0.7), bold=True)
+        czcionka = pygame.font.SysFont('arial', int(rozmiar_pola * 0.6), bold=True)
         kolory = {
-            'C': (0, 0, 255),  # Człowiek - Niebieski
-            'W': (128, 128, 128),  # Wilk - Szary
-            'O': (255, 255, 255),  # Owca - Biały
-            'L': (255, 165, 0),  # Lis - Pomarańczowy
-            'Z': (0, 100, 0),  # Żółw - Ciemnozielony
-            'A': (139, 69, 19),  # Antylopa - Brązowy
-            'T': (124, 252, 0),  # Trawa - Jasnozielony
-            'M': (255, 255, 0),  # Mlecz - Żółty
-            'G': (255, 0, 0),  # Guarana - Czerwony
-            'J': (128, 0, 128),  # Wilcze Jagody - Fioletowy
-            'B': (0, 0, 0)  # Barszcz Sosnowskiego - Czarny
+            'C': (0, 0, 255),
+            'W': (128, 128, 128),
+            'O': (255, 255, 255),
+            'L': (255, 165, 0),
+            'Z': (0, 100, 0),
+            'A': (139, 69, 19),
+            'T': (124, 252, 0),
+            'M': (255, 255, 0),
+            'G': (255, 0, 0),
+            'J': (128, 0, 128),
+            'B': (0, 0, 0),
+            'Y': (0,255,255)
         }
 
-        # 3. Rysowanie każdego żyjącego organizmu jako kwadratu
-        for organizm in self.organizmy:
+        for organizm in reversed(self.organizmy):
             if organizm.czy_zyje():
-                # Przeliczamy współrzędne siatki na piksele na ekranie
                 x_piksele = organizm.polozenie_x * rozmiar_pola
                 y_piksele = organizm.polozenie_y * rozmiar_pola
 
-                # Pobieramy kolor na podstawie znaku, domyślnie ciemnoszary, jeśli czegoś brakuje
                 kolor = kolory.get(organizm.znak, (50, 50, 50))
 
-                # Tworzymy i wypełniamy kwadrat kolorem
                 kwadrat = pygame.Rect(x_piksele, y_piksele, rozmiar_pola, rozmiar_pola)
                 pygame.draw.rect(okno, kolor, kwadrat)
 
                 kolor_tekstu = (255, 255, 255) if organizm.znak in ['B', 'J'] else (0, 0, 0)
 
-                # Renderowanie litery (Znak, włączenie wygładzania True, Kolor tekstu)
                 tekst_obraz = czcionka.render(organizm.znak, True, kolor_tekstu)
 
-                # Pobieramy prostokąt otaczający tekst i ustawiamy jego środek na środek naszego kwadratu z siatki
                 tekst_pozycja = tekst_obraz.get_rect(center=kwadrat.center)
 
-                # Nakładamy tekst na okno ('blit' to pojęcie z grafiki oznaczające naklejanie warstw)
                 okno.blit(tekst_obraz, tekst_pozycja)
 
 
@@ -212,7 +206,7 @@ class Swiat:
 
             klasy_organizmow = {
                 'C': Czlowiek, 'W': Wilk, 'O': Owca, 'L': Lis,
-                'Z': Zolw, 'A': Antylopa, 'T': Trawa, 'M': Mlecz,
+                'Z': Zolw, 'A': Antylopa, 'Y': CyberOwca, 'T': Trawa, 'M': Mlecz,
                 'G': Guarana, 'J': WilczeJagody, 'B': BarszczSosnowskiego
             }
 

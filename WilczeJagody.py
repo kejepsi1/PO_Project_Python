@@ -40,6 +40,4 @@ class WilczeJagody(Roslina):
     def czy_obronil(self, napastnik):
         self.zabij()
 
-        tekst = f"Wilcze Jagody zabijaja organizm: {napastnik.znak}"
-        self._swiat.dodaj_komunikat(tekst)
         return True
